@@ -7,17 +7,15 @@ public abstract class AbstractControler {
 
   protected AbstractModel calc;
   protected String operateur = "", nbre = "";
+  protected Boolean add = false;
   protected ArrayList<String> listOperateur = new ArrayList<String>();
 
   public AbstractControler(AbstractModel cal){
     this.calc = cal;
     //On définit la liste des opérateurs
     //Afin de s'assurer qu'ils sont corrects
-    this.listOperateur.add("+");
-    this.listOperateur.add("-");
-    this.listOperateur.add("*");
-    this.listOperateur.add("/");
-    this.listOperateur.add("=");
+
+    this.listOperateur.add("Lancer la roulette");
    }
    
   //Définit l'opérateur
@@ -27,8 +25,9 @@ public abstract class AbstractControler {
   }
    
   //Définit le nombre
-  public void setNombre(String nombre){
+  public void setNombre(String nombre, boolean b){
     this.nbre = nombre;
+    this.add = b;
     control();
   }
    

@@ -1,5 +1,4 @@
 package RussianRoulette.RussianRoulette;
-
 import RussianRoulette.RussianRoulette.Observable;
 public class Calculator extends AbstractModel{
 
@@ -19,11 +18,14 @@ public class Calculator extends AbstractModel{
   }
 
   //Définit le nombre
-  public void setNombre(String result){
+  public void setNombre(String result, Boolean add){
     //On concatène le nombre 
-    this.operande += result;
-    //On met à jour 
-    notifyObserver(this.operande);
+   if(add == true) {
+	   this.listeNombre.add(result);
+   }else{
+	   this.listeNombre.remove(result);
+   }
+  
   }
 
   //Force le calcul
@@ -31,41 +33,25 @@ public class Calculator extends AbstractModel{
     calcul();
   }
 
-  //Réinitialise tout
-  public void reset(){
-    this.result = 0;
-    this.operande = "0";
-    this.operateur = "";
-    //Mise à jour !
-    notifyObserver(String.valueOf(this.result));
-  }
 
   //Calcul
   public void calcul(){
-    //S'il n'y a pas d'opérateur, le résultat est le nombre saisi
-    if(this.operateur.equals("")){
-      this.result = Double.parseDouble(this.operande);
-    }
-    else{
-      //Si l'opérande n'est pas vide, on calcule avec l'opérateur de calcul 
-      if(!this.operande.equals("")){
-        if(this.operateur.equals("+"))
-          this.result += Double.parseDouble(this.operande);
-        if(this.operateur.equals("-"))
-          this.result -= Double.parseDouble(this.operande);
-        if(this.operateur.equals("*"))
-          this.result *= Double.parseDouble(this.operande);          
-        if(this.operateur.equals("/")){
-          try{
-            this.result /= Double.parseDouble(this.operande);
-          }catch(ArithmeticException e){
-            this.result = 0;
-          }
-        }
-      }
-    }
-    this.operande = "";
-    //On lance aussi la mise à jour !
-    notifyObserver(String.valueOf(this.result));
+	    int rand =  (int)(Math.random() * 6) + 1;
+	    String stringRand = Integer.toString(rand);
+	    System.out.print(stringRand);
+	    if(this.listeNombre.contains(stringRand)) {
+	    	this.result = stringRand+ " Perdu";
+	    } else {
+	    	this.result =  stringRand+ " Gagné";
+	    }
+	    
+	    notifyObserver(this.result);
   }
+
+
+@Override
+public void reset() {
+	// TODO Auto-generated method stub
+	
+}
 }

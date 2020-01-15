@@ -15,7 +15,7 @@ public class CalculetteControler extends AbstractControler {
     //Si l'opérateur est dans la liste
     if(this.listOperateur.contains(this.operateur)){
       //Si l'opérateur est = 
-      if(this.operateur.equals("="))
+      if(this.operateur.equals("Lancer la roulette"))
         this.calc.getResultat(); //On ordonne au modèle d'afficher le résultat
       //Sinon, on passe l'opérateur au modèle
       else
@@ -23,8 +23,8 @@ public class CalculetteControler extends AbstractControler {
     }
 
     //Si le nombre est conforme
-    if(this.nbre.matches("^[0-9.]+$"))
-      this.calc.setNombre(this.nbre);
+    if(this.nbre.matches("^[0-6.]+$"))
+      this.calc.setNombre(this.nbre,this.add);
 
     this.operateur = "";
     this.nbre = "";

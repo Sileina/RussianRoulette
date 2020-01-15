@@ -7,19 +7,21 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
 //CTRL + SHIFT + O pour générer les imports
 public class RouletteInterface extends JFrame implements Observer{
 
   private JPanel container = new JPanel();
    
-  String[] tab_string = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "=", "C", "+", "-", "*", "/"};
-  JButton[] tab_button = new JButton[tab_string.length];
+  String[] tab_string = {"1", "2", "3", "4", "5", "6", "Lancer la roulette"};
+  JToggleButton[] tab_button = new JToggleButton[tab_string.length];
    
   private JLabel ecran = new JLabel();
   private Dimension dim = new Dimension(50, 40);
@@ -62,28 +64,16 @@ public class RouletteInterface extends JFrame implements Observer{
 
     for(int i = 0; i < tab_string.length; i++)
     {
-      tab_button[i] = new JButton(tab_string[i]);
+      tab_button[i] = new JToggleButton(tab_string[i]);
       tab_button[i].setPreferredSize(dim);
 
       switch(i){
-        case 11 :
+        case 6 :
           tab_button[i].addActionListener(opeListener);
+          tab_button[i].setForeground(Color.red);
+          tab_button[i].setPreferredSize(new Dimension(150, 35));
+          
           chiffre.add(tab_button[i]);
-          break;
-        case 12 :
-          tab_button[i].setForeground(Color.red);
-          tab_button[i].addActionListener(new ResetListener());
-          tab_button[i].setPreferredSize(dim2);
-          operateur.add(tab_button[i]);
-          break;
-        case 13 :
-        case 14 :
-        case 15 :
-        case 16 :
-          tab_button[i].setForeground(Color.red);
-          tab_button[i].addActionListener(opeListener);
-          tab_button[i].setPreferredSize(dim2);
-          operateur.add(tab_button[i]);
           break;
         default :
           chiffre.add(tab_button[i]);
@@ -100,13 +90,20 @@ public class RouletteInterface extends JFrame implements Observer{
 
   //Les listeners pour nos boutons
   class ChiffreListener implements ActionListener{ 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent actionEvent) {
       //On affiche le chiffre en plus dans le label
-      String str = ((JButton)e.getSource()).getText();
-      if(!ecran.getText().equals("0"))
-        str = ecran.getText() + str;
+      String str = ((JToggleButton)actionEvent.getSource()).getText();
+      AbstractButton abstractButton =  
+              (AbstractButton)actionEvent.getSource();
+      boolean isSelected = abstractButton.getModel().isSelected();
 
-      controler.setNombre(((JButton)e.getSource()).getText());
+    
+      if( isSelected == true) {
+    	   controler.setNombre(((JToggleButton)actionEvent.getSource()).getText(), true);
+      } else {
+    	  controler.setNombre(((JToggleButton)actionEvent.getSource()).getText(), false);
+      }
+   
     }
 
                 
@@ -114,7 +111,7 @@ public class RouletteInterface extends JFrame implements Observer{
 
   class OperateurListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
-      controler.setOperateur(((JButton)e.getSource()).getText());
+      controler.setOperateur(((JToggleButton)e.getSource()).getText());
     }           
   }
    
